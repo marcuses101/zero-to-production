@@ -1,4 +1,7 @@
+use std::net::TcpListener;
+
 #[tokio::main]
 async fn main() -> Result<(), std::io::Error> {
-    zero_to_production::run()?.await
+    let listener = TcpListener::bind("127.0.0.1:8000").expect("Failed to bind to random port");
+    zero_to_production::run(listener)?.await
 }
