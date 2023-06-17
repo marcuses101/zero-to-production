@@ -1,12 +1,12 @@
 use actix_web::dev::Server;
 use actix_web::{web, App, HttpServer};
-use sqlx::PgConnection;
+use sqlx::PgPool;
 use std::net::TcpListener;
 
 use crate::routes::{greet, health_check, subscribe};
 
-pub fn run(listener: TcpListener, connection: PgConnection) -> Result<Server, std::io::Error> {
-    let connection = web::Data::new(connection);
+pub fn run(listener: TcpListener, db_pool: PgPool) -> Result<Server, std::io::Error> {
+    let db_pool = web::Data::new(db_pool);
     let port = listener.local_addr().unwrap().port();
     println!("listening at http://127.0.0.1:{}", port);
     let server: Server = HttpServer::new(move || {
@@ -15,7 +15,7 @@ pub fn run(listener: TcpListener, connection: PgConnection) -> Result<Server, st
             .route("/health_check", web::get().to(health_check))
             .route("/subscriptions", web::post().to(subscribe))
             .route("/{name}", web::get().to(greet))
-            .app_data(connection.clone())
+            .app_data(db_pool.clone())
     })
     .listen(listener)?
     .run();
