@@ -25,7 +25,7 @@ DB_PASSWORD="${POSTGRES_PASSWORD:=password}"
 # Check if a custom database name has been set, otherwise default to 'newsletter'
 DB_NAME="${POSTGRES_DB:=newsletter}"
 # Check if a custom port name has been set, otherwise default to '5432'
-DB_PORT="${POSTGRES_PORT:=5433}"
+DB_PORT="${POSTGRES_PORT:=5430}"
 # Check if a custom host name has been set, otherwise default to 'localhost'
 DB_HOST="${POSTGRES_HOST:=localhost}"
 
@@ -38,7 +38,7 @@ docker run \
     -e POSTGRES_DB=${DB_NAME} \
     -p "${DB_PORT}":5432 \
     -d postgres \
-    postgres -N 1000 -d postgres
+    postgres -N 1000 
     # ^ Increased maximum number of connections for testing purposes
 fi
 export PGPASSWORD="${DB_PASSWORD}"
