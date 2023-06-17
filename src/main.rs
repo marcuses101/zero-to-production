@@ -1,4 +1,4 @@
-use sqlx::{Connection, PgPool};
+use sqlx::PgPool;
 use std::net::TcpListener;
 use zero_to_production::configuration::get_configuration;
 use zero_to_production::startup::run;
